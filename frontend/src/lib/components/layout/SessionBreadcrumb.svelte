@@ -798,4 +798,22 @@
       transparent
     );
   }
+
+  @media (max-width: 767px) {
+    .breadcrumb-meta {
+      gap: 4px;
+    }
+
+    .session-time {
+      display: none;
+    }
+
+    .token-badge {
+      display: none;
+    }
+
+    .session-id {
+      display: none;
+    }
+  }
 </style>
