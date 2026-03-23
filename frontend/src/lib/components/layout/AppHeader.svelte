@@ -71,11 +71,8 @@
   <div class="header-left">
     <button
       class="hamburger"
-      class:visible={router.route === "sessions" || ui.isMobileViewport}
       onclick={() => {
-        if (router.route === "sessions") {
-          ui.toggleSidebar();
-        } else if (ui.isMobileViewport) {
+        if (ui.isMobileViewport && router.route !== "sessions") {
           sessions.deselectSession();
           router.navigate("sessions");
           ui.sidebarOpen = true;
@@ -83,8 +80,8 @@
           ui.toggleSidebar();
         }
       }}
-      title={router.route === "sessions" || !ui.isMobileViewport ? "Toggle sidebar (b)" : "Back to sessions"}
-      aria-label={router.route === "sessions" || !ui.isMobileViewport ? "Toggle sidebar" : "Back to sessions"}
+      title="Toggle sidebar (b)"
+      aria-label="Toggle sidebar"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
         <path d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 010 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 010 1.5H1.75A.75.75 0 011 7.75zm0 5a.75.75 0 01.75-.75h12.5a.75.75 0 010 1.5H1.75a.75.75 0 01-.75-.75z"/>
@@ -637,7 +634,7 @@
   }
 
   .hamburger {
-    display: none;
+    display: flex;
     width: 28px;
     height: 28px;
     align-items: center;
@@ -645,10 +642,6 @@
     border-radius: var(--radius-sm);
     color: var(--text-muted);
     transition: background 0.12s, color 0.12s;
-  }
-
-  .hamburger.visible {
-    display: flex;
   }
 
   .hamburger:hover {

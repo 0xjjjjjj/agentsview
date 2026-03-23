@@ -176,9 +176,19 @@ class UIStore {
           this.sidebarOpen = e.matches;
           this.isMobileViewport = !e.matches;
         };
-        mq.addEventListener("change", onChange);
+        if (mq.addEventListener) {
+          mq.addEventListener("change", onChange);
+        } else {
+          mq.addListener(onChange);
+        }
         $effect(() => {
-          return () => mq.removeEventListener("change", onChange);
+          return () => {
+            if (mq.removeEventListener) {
+              mq.removeEventListener("change", onChange);
+            } else {
+              mq.removeListener(onChange);
+            }
+          };
         });
       }
     });
