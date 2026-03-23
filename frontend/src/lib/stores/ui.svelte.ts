@@ -115,6 +115,9 @@ class UIStore {
 
   zoomLevel: number = $state(readStoredZoom());
 
+  sidebarOpen: boolean = $state(true);
+  isMobileViewport: boolean = $state(false);
+
   /** Set of block types currently visible. */
   visibleBlocks: Set<BlockType> = $state(readBlockFilters());
 
@@ -163,6 +166,21 @@ class UIStore {
           // ignore
         }
       });
+
+      // Initialize sidebar based on viewport width
+      if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+        const mq = window.matchMedia("(min-width: 768px)");
+        this.sidebarOpen = mq.matches;
+        this.isMobileViewport = !mq.matches;
+        const onChange = (e: MediaQueryListEvent) => {
+          this.sidebarOpen = e.matches;
+          this.isMobileViewport = !e.matches;
+        };
+        mq.addEventListener("change", onChange);
+        $effect(() => {
+          return () => mq.removeEventListener("change", onChange);
+        });
+      }
     });
 
     // Allow parent windows to control theme via postMessage
@@ -277,6 +295,14 @@ class UIStore {
 
   resetZoom() {
     this.zoomLevel = ZOOM_DEFAULT;
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 
   closeAll() {
