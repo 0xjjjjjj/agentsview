@@ -181,15 +181,6 @@ class UIStore {
         } else {
           mq.addListener(onChange);
         }
-        $effect(() => {
-          return () => {
-            if (mq.removeEventListener) {
-              mq.removeEventListener("change", onChange);
-            } else {
-              mq.removeListener(onChange);
-            }
-          };
-        });
       }
     });
 
